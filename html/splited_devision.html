@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>горизонтальное и вертикальное деление</title>
+  <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+    }
+
+    .container {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .top {
+      height: 70%;
+      display: flex; /* теперь разбиваем на два блока по горизонтали */
+    }
+
+    .left {
+      width: 80%;
+      background-color: #f8d7da;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+    }
+
+    .right {
+      width: 20%;
+      background-color: #f5c6cb;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+    }
+
+    .middle {
+      height: 25%;
+      background-color: #d4edda;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+    }
+
+    .bottom {
+      height: 5%;
+      background-color: #d1ecf1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="top">
+      <div class="left">Верхняя (70%) левая (80%)</div>
+      <div class="right">Верхняя (70%) правая (20%)</div>
+    </div>
+    <div class="middle">Средняя часть (25%)</div>
+    <div class="bottom">Нижняя часть (5%)</div>
+  </div>
+</body>
+</html>

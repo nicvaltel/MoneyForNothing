@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Unhappy Farm</title>
+  <link rel="shortcut icon" href="#">
+  <link rel="stylesheet" type="text/css" href="css/style.css">
+  <script type="module" src="scripts/app.js"></script>
+</head>
+<body>
+  <div class="container">
+    <div class="top">
+      <div class="left"></div>
+      <div class="right"">
+        <div id="StatusBox"></div>
+      </div>
+    </div>
+    <div class="middle">
+      <div id="LogBox"></div>
+    </div>
+    <div class="bottom">
+      <input type="button" value="Button Text" id="btn1"></button>
+      <input type="button" value="Button Text" id="btn2"></button>
+      <input type="button" value="Button Text" id="btn3"></button>
+      <input type="button" value="Button Text" id="btn4"></button>
+      <input type="button" value="Button Text" id="btn5"></button>
+      <input type="button" value="Button Text" id="btn6"></button>
+      <input type="button" value="Button Text" id="btn7"></button>
+      <input type="button" value="Button Text" id="btn8"></button>
+      <input type="button" value="Button Text" id="btn9"></button>
+    </div>
+  </div>
+
+</body>
+</html>
