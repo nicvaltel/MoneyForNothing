@@ -29,7 +29,7 @@ export function _waitForClick() {
 
 
       // const buttons = document.querySelectorAll('button');
-      const BUTTONS_NAMES = ["btnRollDice"]
+      const BUTTONS_NAMES = ["btnRollDice", "btn2", "btn3"]
       const buttons = BUTTONS_NAMES.map((btnName) => document.getElementById(btnName));
 
       const handlers = Array.from(buttons).map((btn) => (() => cleanup(btn)));

@@ -1,21 +1,20 @@
 module Adapter.Html.HtmlApp where
 
+import Logic.Types(GameState, UserInput(..))
 import Prelude
 
 import Control.Monad.Reader (class MonadAsk, class MonadReader, ReaderT, ask, runReaderT)
-import Effect (Effect)
+import Effect.Aff (Aff)
+import Effect.Aff.Class (class MonadAff, liftAff)
 import Effect.Class (class MonadEffect, liftEffect)
-import Effect.Console (log)
-import Effect.Ref (Ref, read, write)
 import GameClass (class GameIO)
-import Utils.Utils (undefined)
-import Logic.Types
+import Adapter.Html.HtmlHandler as HtmlHandler
 
 
 type HtmlAppData = {}
-data HtmlApp a = HtmlApp (ReaderT HtmlAppData Effect a)
+data HtmlApp a = HtmlApp (ReaderT HtmlAppData Aff a)
 
-unHtmlApp :: forall a. HtmlApp a -> ReaderT HtmlAppData Effect a
+unHtmlApp :: forall a. HtmlApp a -> ReaderT HtmlAppData Aff a
 unHtmlApp (HtmlApp readerT) = readerT
 
 instance functor :: Functor HtmlApp where
@@ -37,7 +36,9 @@ instance monadHtmlApp :: Monad HtmlApp
 
 instance monadEffectHtmlApp :: MonadEffect HtmlApp where
   liftEffect = HtmlApp <<< liftEffect
-  -- liftEffect = unsafeCoerce
+
+instance monadAffHtmlApp :: MonadAff HtmlApp where
+  liftAff = HtmlApp <<< liftAff
 
 instance monadAskHtmlApp :: MonadAsk HtmlAppData HtmlApp where
   ask = HtmlApp ask
@@ -50,10 +51,19 @@ instance monadReaderHtmlApp :: MonadReader HtmlAppData HtmlApp where
 
 instance gameIOHtmlApp :: GameIO HtmlApp where
   showState :: GameState -> HtmlApp Unit
-  showState gs = liftEffect $ log $ show gs
+  -- showState gs = liftEffect $ log $ show gs
+  showState gs = liftEffect $ HtmlHandler.printGameMessage $ show gs
+  
 
   displayMessage :: String -> HtmlApp Unit
-  displayMessage str = liftEffect $ log str
+  -- displayMessage str = liftEffect $ log str
+  displayMessage str = liftEffect $ HtmlHandler.printGameMessage str
 
   getUserInput :: HtmlApp UserInput
-  getUserInput = undefined
+  getUserInput = do
+    s <- liftAff HtmlHandler.waitForClick
+    pure (parseUserInput s)
+    where
+      parseUserInput :: String -> UserInput
+      parseUserInput "btnRollDice" = UserInputRollDice
+      parseUserInput x = UserInputOther x

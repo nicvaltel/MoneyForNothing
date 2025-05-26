@@ -2,6 +2,9 @@ module Logic.Types where
 
 import Prelude
 
+import Data.Generic.Rep (class Generic)
+import Data.Show.Generic (genericShow)
+
 
 data Action =
   RollDice
@@ -18,7 +21,17 @@ type GameState =
   { player :: Player
   , money :: Number
   , position :: Int
+  , step :: Int
   }
 
 
-data UserInput = UserInput String
+data UserInput = 
+    UserInputRollDice
+  | UserInputOther String
+
+derive instance eqUserInput :: Eq UserInput
+
+derive instance genericUserInput :: Generic UserInput _
+
+instance showUserInput :: Show UserInput where
+  show = genericShow
