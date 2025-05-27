@@ -33,6 +33,7 @@ to generate this file without the comments in this block.
   , "refs"
   , "datetime"
   , "exceptions"
+  , "integers"
   ]
 , packages = ./packages.dhall
 , sources = [ "src/**/*.purs", "test/**/*.purs" ]

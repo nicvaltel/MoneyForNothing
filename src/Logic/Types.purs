@@ -20,6 +20,10 @@ type Player =
 type GameState =
   { player :: Player
   , money :: Number
+  , intellect :: Number
+  , freeTime :: Int
+  , absPosition :: Int
+  , lastSalary :: Int
   , position :: Int
   , fieldType :: FieldType
   , step :: Int
