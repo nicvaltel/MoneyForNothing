@@ -19,7 +19,7 @@ rollDice = randomInt minDice maxDice
 processRollDice :: GameState -> Effect GameState
 processRollDice gs = do
   dice <- rollDice
-  let newAbsPosition = gs.position + dice
+  let newAbsPosition = gs.absPosition + dice
   let newPosition = newAbsPosition `mod` fieldCicleSIze
   pure gs{position = newPosition, absPosition = newAbsPosition}
 

@@ -1,8 +1,8 @@
 module Adapter.Html.HtmlHandler
   ( displayButton
   , displayGameStatus
-  , hideButton
   , hideAllButtons
+  , hideButton
   , printGameMessage
   , setButtonText
   , waitForClick

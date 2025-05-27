@@ -14,8 +14,8 @@ html, body {
   display: flex; /* теперь разбиваем на два блока по горизонтали */
 }
 
-.left {
-  width: 80%;
+.top-left {
+  width: 25%;
   background-color: #f8d7da;
   display: flex;
   align-items: center;
@@ -23,9 +23,34 @@ html, body {
   font-size: 24px;
 }
 
-.right {
-  width: 20%;
+.top-middle {
+  width: 50%;
+  background-color: #dc9ba2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+}
+
+.top-right {
+  width: 25%;
   background-color: #f5c6cb;
+  display: flex;
+  flex-direction: column;
+}
+
+.top-right-top {
+  height: 75%;
+  background-color: #f5c6cb;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+}
+
+.top-right-bottom {
+  height: 25%;
+  background-color: #d9c4c6;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -43,7 +68,7 @@ html, body {
 
 .bottom {
   height: 5%;
-  background-color: #d1ecf1;
+  background-color: #a0d3dc;
   display: flex;
   align-items: center;
   justify-content: center;

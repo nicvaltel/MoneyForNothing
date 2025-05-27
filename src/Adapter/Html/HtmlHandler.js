@@ -79,7 +79,7 @@ export const _hideButton = function (btnIdx){
 export const _hideAllButtons = function(){
     BUTTONS_NAMES.forEach(button => {
       document.getElementById(button).hidden = true;
-    })
+    });
 }
 
 export const _displayButton = function(btnIdx){
@@ -115,6 +115,8 @@ export const _displayGameStatus = function(strings){
     });
   }
 }
+
+
 
 // export function waitForClickImpl() {
 //   return new Promise((resolve) => {

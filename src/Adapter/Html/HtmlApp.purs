@@ -8,7 +8,7 @@ import Effect.Aff (Aff)
 import Effect.Aff.Class (class MonadAff, liftAff)
 import Effect.Class (class MonadEffect, liftEffect)
 import GameClass (class GameIO)
-import Logic.Types (GameState, UserInput(..))
+import Logic.Types (GameState, UserInput(..), prettyGameState)
 
 
 type HtmlAppData = {}
@@ -52,7 +52,7 @@ instance monadReaderHtmlApp :: MonadReader HtmlAppData HtmlApp where
 instance gameIOHtmlApp :: GameIO HtmlApp where
   showState :: GameState -> HtmlApp Unit
   -- showState gs = liftEffect $ log $ show gs
-  showState gs = liftEffect $ HtmlHandler.printGameMessage $ show gs
+  showState gs = liftEffect $ HtmlHandler.displayGameStatus $ prettyGameState gs
   
 
   displayMessage :: String -> HtmlApp Unit

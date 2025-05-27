@@ -4,6 +4,7 @@ import Prelude
 
 import Data.Generic.Rep (class Generic)
 import Data.Show.Generic (genericShow)
+import Data.String (Pattern(..), Replacement(..), replaceAll)
 
 
 data Action =
@@ -32,6 +33,9 @@ type GameState =
   , randomEvents :: Int
   }
 
+prettyGameState :: GameState -> String
+prettyGameState gs = 
+  replaceAll (Pattern ",") (Replacement ",\n") (show gs)
 
 data UserInput = 
     UserInputRollDice
