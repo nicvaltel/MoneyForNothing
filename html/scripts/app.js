@@ -100,14 +100,14 @@
     return function(dictShowRecordFields) {
       var showRecordFields1 = showRecordFields(dictShowRecordFields);
       return function(dictShow) {
-        var show1 = show(dictShow);
+        var show12 = show(dictShow);
         return {
           showRecordFields: function(v) {
             return function(record) {
               var tail = showRecordFields1($$Proxy.value)(record);
               var key = reflectSymbol2($$Proxy.value);
               var focus = unsafeGet(key)(record);
-              return " " + (key + (": " + (show1(focus) + ("," + tail))));
+              return " " + (key + (": " + (show12(focus) + ("," + tail))));
             };
           }
         };
@@ -117,13 +117,13 @@
   var showRecordFieldsConsNil = function(dictIsSymbol) {
     var reflectSymbol2 = reflectSymbol(dictIsSymbol);
     return function(dictShow) {
-      var show1 = show(dictShow);
+      var show12 = show(dictShow);
       return {
         showRecordFields: function(v) {
           return function(record) {
             var key = reflectSymbol2($$Proxy.value);
             var focus = unsafeGet(key)(record);
-            return " " + (key + (": " + (show1(focus) + " ")));
+            return " " + (key + (": " + (show12(focus) + " ")));
           };
         }
       };
@@ -131,9 +131,9 @@
   };
 
   // output/Adapter.Html.HtmlHandler/foreign.js
+  var BUTTONS_NAMES = ["btnRollDice", "btnStudy", "btnWork", "btnDoRandomEvent"];
   function _waitForClick() {
     return new Promise((resolve) => {
-      const BUTTONS_NAMES = ["btnRollDice", "btn2", "btn3"];
       const buttons = BUTTONS_NAMES.map((btnName) => document.getElementById(btnName));
       const handlers = Array.from(buttons).map((btn) => () => cleanup(btn));
       function cleanup(btn) {
@@ -144,6 +144,16 @@
       buttons.forEach((btn, i) => btn.addEventListener("click", handlers[i]));
     });
   }
+  var _hideAllButtons = function() {
+    BUTTONS_NAMES.forEach((button) => {
+      document.getElementById(button).hidden = true;
+    });
+  };
+  var _displayButton = function(btnIdx) {
+    return function() {
+      document.getElementById(btnIdx).hidden = false;
+    };
+  };
   var _printGameMessage = function(msg) {
     return function() {
       const div2 = document.getElementById("LogBox");
@@ -2724,6 +2734,8 @@
       return traverse_2(_printGameMessage)(lines(msg))();
     };
   };
+  var hideAllButtons = _hideAllButtons;
+  var displayButton = _displayButton;
 
   // output/Effect.Aff.Class/index.js
   var lift4 = /* @__PURE__ */ lift(monadTransReaderT);
@@ -2828,12 +2840,34 @@
   };
 
   // output/Logic.Types/index.js
+  var genericShowConstructor2 = /* @__PURE__ */ genericShowConstructor(genericShowArgsNoArguments);
   var UserInputRollDice = /* @__PURE__ */ function() {
     function UserInputRollDice2() {
     }
     ;
     UserInputRollDice2.value = new UserInputRollDice2();
     return UserInputRollDice2;
+  }();
+  var UserInputStudy = /* @__PURE__ */ function() {
+    function UserInputStudy2() {
+    }
+    ;
+    UserInputStudy2.value = new UserInputStudy2();
+    return UserInputStudy2;
+  }();
+  var UserInputWork = /* @__PURE__ */ function() {
+    function UserInputWork2() {
+    }
+    ;
+    UserInputWork2.value = new UserInputWork2();
+    return UserInputWork2;
+  }();
+  var UserInputDoRandomEvent = /* @__PURE__ */ function() {
+    function UserInputDoRandomEvent2() {
+    }
+    ;
+    UserInputDoRandomEvent2.value = new UserInputDoRandomEvent2();
+    return UserInputDoRandomEvent2;
   }();
   var UserInputOther = /* @__PURE__ */ function() {
     function UserInputOther2(value0) {
@@ -2845,40 +2879,163 @@
     };
     return UserInputOther2;
   }();
+  var FieldStudy = /* @__PURE__ */ function() {
+    function FieldStudy2() {
+    }
+    ;
+    FieldStudy2.value = new FieldStudy2();
+    return FieldStudy2;
+  }();
+  var FieldWork = /* @__PURE__ */ function() {
+    function FieldWork2() {
+    }
+    ;
+    FieldWork2.value = new FieldWork2();
+    return FieldWork2;
+  }();
+  var FieldRandomEvent = /* @__PURE__ */ function() {
+    function FieldRandomEvent2() {
+    }
+    ;
+    FieldRandomEvent2.value = new FieldRandomEvent2();
+    return FieldRandomEvent2;
+  }();
+  var FieldActionComplete = /* @__PURE__ */ function() {
+    function FieldActionComplete2() {
+    }
+    ;
+    FieldActionComplete2.value = new FieldActionComplete2();
+    return FieldActionComplete2;
+  }();
   var genericUserInput = {
     to: function(x) {
       if (x instanceof Inl) {
         return UserInputRollDice.value;
       }
       ;
-      if (x instanceof Inr) {
-        return new UserInputOther(x.value0);
+      if (x instanceof Inr && x.value0 instanceof Inl) {
+        return UserInputStudy.value;
       }
       ;
-      throw new Error("Failed pattern match at Logic.Types (line 34, column 1 - line 34, column 56): " + [x.constructor.name]);
+      if (x instanceof Inr && (x.value0 instanceof Inr && x.value0.value0 instanceof Inl)) {
+        return UserInputWork.value;
+      }
+      ;
+      if (x instanceof Inr && (x.value0 instanceof Inr && (x.value0.value0 instanceof Inr && x.value0.value0.value0 instanceof Inl))) {
+        return UserInputDoRandomEvent.value;
+      }
+      ;
+      if (x instanceof Inr && (x.value0 instanceof Inr && (x.value0.value0 instanceof Inr && x.value0.value0.value0 instanceof Inr))) {
+        return new UserInputOther(x.value0.value0.value0.value0);
+      }
+      ;
+      throw new Error("Failed pattern match at Logic.Types (line 40, column 1 - line 40, column 56): " + [x.constructor.name]);
     },
     from: function(x) {
       if (x instanceof UserInputRollDice) {
         return new Inl(NoArguments.value);
       }
       ;
-      if (x instanceof UserInputOther) {
-        return new Inr(x.value0);
+      if (x instanceof UserInputStudy) {
+        return new Inr(new Inl(NoArguments.value));
       }
       ;
-      throw new Error("Failed pattern match at Logic.Types (line 34, column 1 - line 34, column 56): " + [x.constructor.name]);
+      if (x instanceof UserInputWork) {
+        return new Inr(new Inr(new Inl(NoArguments.value)));
+      }
+      ;
+      if (x instanceof UserInputDoRandomEvent) {
+        return new Inr(new Inr(new Inr(new Inl(NoArguments.value))));
+      }
+      ;
+      if (x instanceof UserInputOther) {
+        return new Inr(new Inr(new Inr(new Inr(x.value0))));
+      }
+      ;
+      throw new Error("Failed pattern match at Logic.Types (line 40, column 1 - line 40, column 56): " + [x.constructor.name]);
     }
   };
   var showUserInput = {
-    show: /* @__PURE__ */ genericShow(genericUserInput)(/* @__PURE__ */ genericShowSum(/* @__PURE__ */ genericShowConstructor(genericShowArgsNoArguments)({
+    show: /* @__PURE__ */ genericShow(genericUserInput)(/* @__PURE__ */ genericShowSum(/* @__PURE__ */ genericShowConstructor2({
       reflectSymbol: function() {
         return "UserInputRollDice";
+      }
+    }))(/* @__PURE__ */ genericShowSum(/* @__PURE__ */ genericShowConstructor2({
+      reflectSymbol: function() {
+        return "UserInputStudy";
+      }
+    }))(/* @__PURE__ */ genericShowSum(/* @__PURE__ */ genericShowConstructor2({
+      reflectSymbol: function() {
+        return "UserInputWork";
+      }
+    }))(/* @__PURE__ */ genericShowSum(/* @__PURE__ */ genericShowConstructor2({
+      reflectSymbol: function() {
+        return "UserInputDoRandomEvent";
       }
     }))(/* @__PURE__ */ genericShowConstructor(/* @__PURE__ */ genericShowArgsArgument(showString))({
       reflectSymbol: function() {
         return "UserInputOther";
       }
-    })))
+    }))))))
+  };
+  var genericFieldType = {
+    to: function(x) {
+      if (x instanceof Inl) {
+        return FieldStudy.value;
+      }
+      ;
+      if (x instanceof Inr && x.value0 instanceof Inl) {
+        return FieldWork.value;
+      }
+      ;
+      if (x instanceof Inr && (x.value0 instanceof Inr && x.value0.value0 instanceof Inl)) {
+        return FieldRandomEvent.value;
+      }
+      ;
+      if (x instanceof Inr && (x.value0 instanceof Inr && x.value0.value0 instanceof Inr)) {
+        return FieldActionComplete.value;
+      }
+      ;
+      throw new Error("Failed pattern match at Logic.Types (line 52, column 1 - line 52, column 56): " + [x.constructor.name]);
+    },
+    from: function(x) {
+      if (x instanceof FieldStudy) {
+        return new Inl(NoArguments.value);
+      }
+      ;
+      if (x instanceof FieldWork) {
+        return new Inr(new Inl(NoArguments.value));
+      }
+      ;
+      if (x instanceof FieldRandomEvent) {
+        return new Inr(new Inr(new Inl(NoArguments.value)));
+      }
+      ;
+      if (x instanceof FieldActionComplete) {
+        return new Inr(new Inr(new Inr(NoArguments.value)));
+      }
+      ;
+      throw new Error("Failed pattern match at Logic.Types (line 52, column 1 - line 52, column 56): " + [x.constructor.name]);
+    }
+  };
+  var showFieldType = {
+    show: /* @__PURE__ */ genericShow(genericFieldType)(/* @__PURE__ */ genericShowSum(/* @__PURE__ */ genericShowConstructor2({
+      reflectSymbol: function() {
+        return "FieldStudy";
+      }
+    }))(/* @__PURE__ */ genericShowSum(/* @__PURE__ */ genericShowConstructor2({
+      reflectSymbol: function() {
+        return "FieldWork";
+      }
+    }))(/* @__PURE__ */ genericShowSum(/* @__PURE__ */ genericShowConstructor2({
+      reflectSymbol: function() {
+        return "FieldRandomEvent";
+      }
+    }))(/* @__PURE__ */ genericShowConstructor2({
+      reflectSymbol: function() {
+        return "FieldActionComplete";
+      }
+    })))))
   };
 
   // output/Adapter.Html.HtmlApp/index.js
@@ -2903,6 +3060,10 @@
   var showRecord2 = /* @__PURE__ */ showRecord()();
   var show2 = /* @__PURE__ */ show(/* @__PURE__ */ showRecord2(/* @__PURE__ */ showRecordFieldsCons({
     reflectSymbol: function() {
+      return "fieldType";
+    }
+  })(/* @__PURE__ */ showRecordFieldsCons({
+    reflectSymbol: function() {
       return "money";
     }
   })(/* @__PURE__ */ showRecordFieldsCons({
@@ -2913,11 +3074,23 @@
     reflectSymbol: function() {
       return "position";
     }
-  })(/* @__PURE__ */ showRecordFieldsConsNil({
+  })(/* @__PURE__ */ showRecordFieldsCons({
+    reflectSymbol: function() {
+      return "randomEvents";
+    }
+  })(/* @__PURE__ */ showRecordFieldsCons({
     reflectSymbol: function() {
       return "step";
     }
-  })(showInt))(showInt))(/* @__PURE__ */ showRecord2(/* @__PURE__ */ showRecordFieldsCons({
+  })(/* @__PURE__ */ showRecordFieldsCons({
+    reflectSymbol: function() {
+      return "study";
+    }
+  })(/* @__PURE__ */ showRecordFieldsConsNil({
+    reflectSymbol: function() {
+      return "work";
+    }
+  })(showInt))(showInt))(showInt))(showInt))(showInt))(/* @__PURE__ */ showRecord2(/* @__PURE__ */ showRecordFieldsCons({
     reflectSymbol: function() {
       return "age";
     }
@@ -2925,7 +3098,7 @@
     reflectSymbol: function() {
       return "name";
     }
-  })(showString))(showInt))))(showNumber)));
+  })(showString))(showInt))))(showNumber))(showFieldType)));
   var HtmlApp = /* @__PURE__ */ function() {
     function HtmlApp2(value0) {
       this.value0 = value0;
@@ -2985,9 +3158,9 @@
   var pure22 = /* @__PURE__ */ pure(applicativeHtmlApp);
   var monadEffectHtmlApp = {
     liftEffect: /* @__PURE__ */ function() {
-      var $63 = liftEffect(monadEffectReader(monadEffectAff));
-      return function($64) {
-        return HtmlApp.create($63($64));
+      var $79 = liftEffect(monadEffectReader(monadEffectAff));
+      return function($80) {
+        return HtmlApp.create($79($80));
       };
     }(),
     Monad0: function() {
@@ -2997,9 +3170,9 @@
   var liftEffect3 = /* @__PURE__ */ liftEffect(monadEffectHtmlApp);
   var monadAffHtmlApp = {
     liftAff: /* @__PURE__ */ function() {
-      var $65 = liftAff(monadAffReader(monadAffAff));
-      return function($66) {
-        return HtmlApp.create($65($66));
+      var $81 = liftAff(monadAffReader(monadAffAff));
+      return function($82) {
+        return HtmlApp.create($81($82));
       };
     }(),
     MonadEffect0: function() {
@@ -3019,12 +3192,28 @@
           return UserInputRollDice.value;
         }
         ;
+        if (v === "btnStudy") {
+          return UserInputStudy.value;
+        }
+        ;
+        if (v === "btnWork") {
+          return UserInputWork.value;
+        }
+        ;
+        if (v === "btnDoRandomEvent") {
+          return UserInputDoRandomEvent.value;
+        }
+        ;
         return new UserInputOther(v);
       };
       return bind(bindHtmlApp)(liftAff(monadAffHtmlApp)(waitForClick))(function(s) {
         return pure22(parseUserInput(s));
       });
     }(),
+    hideAllButtons: /* @__PURE__ */ liftEffect3(hideAllButtons),
+    displayButton: function(btnName) {
+      return liftEffect3(displayButton(btnName));
+    },
     MonadEffect0: function() {
       return monadEffectHtmlApp;
     }
@@ -3048,71 +3237,203 @@
   var showState = function(dict) {
     return dict.showState;
   };
+  var hideAllButtons2 = function(dict) {
+    return dict.hideAllButtons;
+  };
   var getUserInput = function(dict) {
     return dict.getUserInput;
   };
+  var displayMessage = function(dict) {
+    return dict.displayMessage;
+  };
+  var displayButton2 = function(dict) {
+    return dict.displayButton;
+  };
 
   // output/Logic.Params/index.js
+  var mod2 = /* @__PURE__ */ mod(euclideanRingInt);
+  var positionToFieldType = function(n) {
+    var v = mod2(n)(3);
+    if (v === 0) {
+      return FieldStudy.value;
+    }
+    ;
+    if (v === 1) {
+      return FieldWork.value;
+    }
+    ;
+    if (v === 2) {
+      return FieldRandomEvent.value;
+    }
+    ;
+    return error2("Unexpected `mod` 3");
+  };
   var minDice = 1;
   var maxDice = 6;
-  var initialGameState = {
-    player: {
-      name: "Username",
-      age: 27
-    },
-    money: 600,
-    position: 0,
-    step: 0
-  };
+  var initialGameState = /* @__PURE__ */ function() {
+    return {
+      player: {
+        name: "Username",
+        age: 27
+      },
+      money: 600,
+      position: 0,
+      fieldType: FieldActionComplete.value,
+      step: 0,
+      work: 0,
+      study: 0,
+      randomEvents: 0
+    };
+  }();
   var fieldCicleSIze = 100;
+  var btnWork = "btnWork";
+  var btnStudy = "btnStudy";
+  var btnRollDice = "btnRollDice";
+  var btnDoRandomEvent = "btnDoRandomEvent";
 
   // output/Logic.Logic/index.js
-  var mod2 = /* @__PURE__ */ mod(euclideanRingInt);
+  var mod3 = /* @__PURE__ */ mod(euclideanRingInt);
   var discard2 = /* @__PURE__ */ discard(discardUnit);
   var show3 = /* @__PURE__ */ show(showUserInput);
+  var show1 = /* @__PURE__ */ show(showFieldType);
   var rollDice = /* @__PURE__ */ randomInt(minDice)(maxDice);
   var processRollDice = function(gs) {
     return function __do2() {
       var dice = rollDice();
-      var newPosition = mod2(gs.position + dice | 0)(fieldCicleSIze);
+      var newPosition = mod3(gs.position + dice | 0)(fieldCicleSIze);
       return {
         position: newPosition,
+        fieldType: gs.fieldType,
         money: gs.money,
         player: gs.player,
-        step: gs.step
+        randomEvents: gs.randomEvents,
+        step: gs.step,
+        study: gs.study,
+        work: gs.work
+      };
+    };
+  };
+  var hideUnusedButtons = function(dictGameIO) {
+    var displayButton3 = displayButton2(dictGameIO);
+    var Monad0 = dictGameIO.MonadEffect0().Monad0();
+    var pure1 = pure(Monad0.Applicative0());
+    var discard1 = discard2(Monad0.Bind1());
+    var hideAllButtons3 = hideAllButtons2(dictGameIO);
+    return function(ftype) {
+      var showUsedBtn = function(v) {
+        if (v instanceof FieldStudy) {
+          return displayButton3(btnStudy);
+        }
+        ;
+        if (v instanceof FieldWork) {
+          return displayButton3(btnWork);
+        }
+        ;
+        if (v instanceof FieldRandomEvent) {
+          return displayButton3(btnDoRandomEvent);
+        }
+        ;
+        if (v instanceof FieldActionComplete) {
+          return pure1(unit);
+        }
+        ;
+        throw new Error("Failed pattern match at Logic.Logic (line 63, column 7 - line 63, column 54): " + [v.constructor.name]);
+      };
+      return discard1(hideAllButtons3)(function() {
+        return discard1(displayButton3(btnRollDice))(function() {
+          return showUsedBtn(ftype);
+        });
+      });
+    };
+  };
+  var availableActionsFSM = function(v) {
+    return function(v1) {
+      return function(v2) {
+        if (v instanceof FieldStudy && v1 instanceof UserInputStudy) {
+          return {
+            player: v2.player,
+            money: v2.money,
+            position: v2.position,
+            fieldType: FieldActionComplete.value,
+            step: v2.step,
+            work: v2.work,
+            study: v2.study + 1 | 0,
+            randomEvents: v2.randomEvents
+          };
+        }
+        ;
+        if (v instanceof FieldWork && v1 instanceof UserInputWork) {
+          return {
+            player: v2.player,
+            money: v2.money,
+            position: v2.position,
+            fieldType: FieldActionComplete.value,
+            step: v2.step,
+            work: v2.work + 1 | 0,
+            study: v2.study,
+            randomEvents: v2.randomEvents
+          };
+        }
+        ;
+        if (v instanceof FieldRandomEvent && v1 instanceof UserInputDoRandomEvent) {
+          return {
+            player: v2.player,
+            money: v2.money,
+            position: v2.position,
+            fieldType: FieldActionComplete.value,
+            step: v2.step,
+            work: v2.work,
+            study: v2.study,
+            randomEvents: v2.randomEvents + 1 | 0
+          };
+        }
+        ;
+        return v2;
       };
     };
   };
   var gameLoop = function(dictGameIO) {
     var MonadEffect0 = dictGameIO.MonadEffect0();
     var Bind1 = MonadEffect0.Monad0().Bind1();
+    var discard1 = discard2(Bind1);
+    var hideUnusedButtons1 = hideUnusedButtons(dictGameIO);
     var bind1 = bind(Bind1);
     var getUserInput2 = getUserInput(dictGameIO);
-    var discard1 = discard2(Bind1);
     var liftEffect4 = liftEffect(MonadEffect0);
+    var displayMessage2 = displayMessage(dictGameIO);
     var showState2 = showState(dictGameIO);
     return function(gs) {
-      return bind1(getUserInput2)(function(userInput) {
-        return discard1(liftEffect4(log("PRESSED: " + show3(userInput))))(function() {
-          if (userInput instanceof UserInputRollDice) {
-            return bind1(liftEffect4(processRollDice(gs)))(function(gs1) {
-              var newGs = {
-                step: gs1.step + 1 | 0,
-                money: gs1.money,
-                player: gs1.player,
-                position: gs1.position
-              };
-              return discard1(showState2(newGs))(function() {
-                return gameLoop(dictGameIO)(newGs);
+      return discard1(hideUnusedButtons1(gs.fieldType))(function() {
+        return bind1(getUserInput2)(function(userInput) {
+          return discard1(liftEffect4(log("PRESSED: " + show3(userInput))))(function() {
+            if (userInput instanceof UserInputRollDice) {
+              return bind1(liftEffect4(processRollDice(gs)))(function(gs1) {
+                var newFieldType = positionToFieldType(gs1.position);
+                return discard1(displayMessage2("Field: " + show1(newFieldType)))(function() {
+                  var newGs2 = {
+                    step: gs1.step + 1 | 0,
+                    fieldType: newFieldType,
+                    money: gs1.money,
+                    player: gs1.player,
+                    position: gs1.position,
+                    randomEvents: gs1.randomEvents,
+                    study: gs1.study,
+                    work: gs1.work
+                  };
+                  return discard1(showState2(newGs2))(function() {
+                    return gameLoop(dictGameIO)(newGs2);
+                  });
+                });
               });
-            });
-          }
-          ;
-          if (userInput instanceof UserInputOther) {
-            return gameLoop(dictGameIO)(gs);
-          }
-          ;
-          throw new Error("Failed pattern match at Logic.Logic (line 36, column 3 - line 42, column 36): " + [userInput.constructor.name]);
+            }
+            ;
+            if (userInput instanceof UserInputOther) {
+              return gameLoop(dictGameIO)(gs);
+            }
+            ;
+            var newGs = availableActionsFSM(positionToFieldType(gs.position))(userInput)(gs);
+            return gameLoop(dictGameIO)(newGs);
+          });
         });
       });
     };

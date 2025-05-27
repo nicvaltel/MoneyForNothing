@@ -21,17 +21,34 @@ type GameState =
   { player :: Player
   , money :: Number
   , position :: Int
+  , fieldType :: FieldType
   , step :: Int
+  , work :: Int
+  , study :: Int
+  , randomEvents :: Int
   }
 
 
 data UserInput = 
     UserInputRollDice
+  | UserInputStudy
+  | UserInputWork
+  | UserInputDoRandomEvent
   | UserInputOther String
 
 derive instance eqUserInput :: Eq UserInput
-
 derive instance genericUserInput :: Generic UserInput _
-
 instance showUserInput :: Show UserInput where
+  show = genericShow
+
+
+data FieldType =
+    FieldStudy
+  | FieldWork
+  | FieldRandomEvent
+  | FieldActionComplete
+
+derive instance eqFieldType :: Eq FieldType
+derive instance genericFieldType :: Generic FieldType _
+instance showFieldType :: Show FieldType where
   show = genericShow

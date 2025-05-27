@@ -1,5 +1,5 @@
-const N_BUTTONS = 9;
-// const BUTTONS_NAMES = ["btnRollDice"]
+// const N_BUTTONS = 9;
+const BUTTONS_NAMES = ["btnRollDice", "btnStudy", "btnWork", "btnDoRandomEvent"]
 // const buttons = range(1, N_BUTTONS).map((i) => document.getElementById("btn"+i));
 
 
@@ -29,7 +29,7 @@ export function _waitForClick() {
 
 
       // const buttons = document.querySelectorAll('button');
-      const BUTTONS_NAMES = ["btnRollDice", "btn2", "btn3"]
+      // const BUTTONS_NAMES = ["btnRollDice", "btnStudy", "btnWork", "btnDoRandomEvent"]
       const buttons = BUTTONS_NAMES.map((btnName) => document.getElementById(btnName));
 
       const handlers = Array.from(buttons).map((btn) => (() => cleanup(btn)));
@@ -74,6 +74,12 @@ export const _hideButton = function (btnIdx){
   return function () {
     document.getElementById(btnIdx).hidden = true;
   }
+}
+
+export const _hideAllButtons = function(){
+    BUTTONS_NAMES.forEach(button => {
+      document.getElementById(button).hidden = true;
+    })
 }
 
 export const _displayButton = function(btnIdx){

@@ -1,14 +1,14 @@
 module Adapter.Html.HtmlApp where
 
-import Logic.Types(GameState, UserInput(..))
 import Prelude
 
+import Adapter.Html.HtmlHandler as HtmlHandler
 import Control.Monad.Reader (class MonadAsk, class MonadReader, ReaderT, ask, runReaderT)
 import Effect.Aff (Aff)
 import Effect.Aff.Class (class MonadAff, liftAff)
 import Effect.Class (class MonadEffect, liftEffect)
 import GameClass (class GameIO)
-import Adapter.Html.HtmlHandler as HtmlHandler
+import Logic.Types (GameState, UserInput(..))
 
 
 type HtmlAppData = {}
@@ -66,4 +66,11 @@ instance gameIOHtmlApp :: GameIO HtmlApp where
     where
       parseUserInput :: String -> UserInput
       parseUserInput "btnRollDice" = UserInputRollDice
+      parseUserInput "btnStudy" = UserInputStudy
+      parseUserInput "btnWork" = UserInputWork
+      parseUserInput "btnDoRandomEvent" = UserInputDoRandomEvent
       parseUserInput x = UserInputOther x
+
+  hideAllButtons = liftEffect HtmlHandler.hideAllButtons
+
+  displayButton btnName = liftEffect $ HtmlHandler.displayButton btnName

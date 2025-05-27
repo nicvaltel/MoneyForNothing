@@ -12,5 +12,7 @@ class (MonadEffect m) <= GameIO m  where
   showState :: GameState -> m Unit
   displayMessage :: String -> m Unit
   getUserInput :: m UserInput
+  hideAllButtons :: m Unit
+  displayButton :: String -> m Unit
 
 

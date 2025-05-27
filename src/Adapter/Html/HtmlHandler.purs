@@ -2,6 +2,7 @@ module Adapter.Html.HtmlHandler
   ( displayButton
   , displayGameStatus
   , hideButton
+  , hideAllButtons
   , printGameMessage
   , setButtonText
   , waitForClick
@@ -25,6 +26,7 @@ foreign import _displayButton :: ButtonIdx -> Effect Unit
 foreign import _setButtonText :: ButtonIdx -> String -> Effect Unit
 foreign import _printGameMessage :: String -> Effect Unit
 foreign import _displayGameStatus :: Array String -> Effect Unit
+foreign import _hideAllButtons :: Effect Unit
 
 
 -- wrap into Aff
@@ -34,6 +36,9 @@ waitForClick = toAffE _waitForClick
 
 hideButton ∷ ButtonIdx → Effect Unit
 hideButton = _hideButton
+
+hideAllButtons :: Effect Unit
+hideAllButtons = _hideAllButtons
 
 displayButton ∷ ButtonIdx → Effect Unit
 displayButton = _displayButton
