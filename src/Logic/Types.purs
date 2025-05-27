@@ -38,6 +38,7 @@ data UserInput =
   | UserInputStudy
   | UserInputWork
   | UserInputDoRandomEvent
+  | UserInputLeaveWork
   | UserInputOther String
 
 derive instance eqUserInput :: Eq UserInput

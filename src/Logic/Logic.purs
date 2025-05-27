@@ -1,9 +1,9 @@
 module Logic.Logic where
 
-import Prelude
-
 import GameClass
 import Logic.Params
+import Prelude
+
 import Data.Int (toNumber)
 import Effect (Effect)
 import Effect.Class (liftEffect)
@@ -36,6 +36,10 @@ availableActionsFSM FieldWork UserInputWork gs | gs.freeTime >= workTimeCost =
         , fieldType = FieldActionComplete
         } 
 availableActionsFSM FieldRandomEvent UserInputDoRandomEvent gs = gs{randomEvents = gs.randomEvents + 1, fieldType = FieldActionComplete}
+availableActionsFSM _ UserInputLeaveWork gs | gs.work >= 1 =
+  gs{ work = gs.work - 1
+    , freeTime = gs.freeTime + workTimeCost
+    } 
 availableActionsFSM _ _ gs = gs
 
 paySalary :: GameState -> GameState
@@ -50,7 +54,7 @@ gameLoop :: forall m. GameIO m => GameState -> m Unit
 gameLoop gs0 = do
   let gs = paySalary gs0
   showState gs
-  hideUnusedButtons gs.fieldType
+  hideUnusedButtons gs
   userInput <- getUserInput
   liftEffect $ log $ "PRESSED: " <> show userInput
   case userInput of
@@ -66,11 +70,12 @@ gameLoop gs0 = do
       gameLoop newGs
 
 
-hideUnusedButtons :: forall m. GameIO m => FieldType -> m Unit
-hideUnusedButtons ftype = do
+hideUnusedButtons :: forall m. GameIO m => GameState -> m Unit
+hideUnusedButtons gs = do
     hideAllButtons
     displayButton btnRollDice
-    showUsedBtn ftype
+    when (gs.work >= 1) $ displayButton btnLeaveWork
+    showUsedBtn gs.fieldType
     where
       showUsedBtn FieldStudy = displayButton btnStudy
       showUsedBtn FieldWork = displayButton btnWork

@@ -1,5 +1,5 @@
 // const N_BUTTONS = 9;
-const BUTTONS_NAMES = ["btnRollDice", "btnStudy", "btnWork", "btnDoRandomEvent"]
+const BUTTONS_NAMES = ["btnRollDice", "btnStudy", "btnWork", "btnDoRandomEvent", "btnLeaveWork"]
 // const buttons = range(1, N_BUTTONS).map((i) => document.getElementById("btn"+i));
 
 

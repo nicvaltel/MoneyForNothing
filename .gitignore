@@ -8,3 +8,4 @@
 /.purs*
 /.psa*
 /.spago
+/html/scripts/app.js

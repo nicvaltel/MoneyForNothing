@@ -42,6 +42,7 @@ btnRollDice = "btnRollDice" :: String
 btnStudy = "btnStudy" :: String
 btnWork = "btnWork" :: String
 btnDoRandomEvent = "btnDoRandomEvent" :: String
+btnLeaveWork = "btnLeaveWork" :: String
 
 
 workTimeCost = 100 :: Int

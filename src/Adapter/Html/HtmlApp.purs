@@ -69,6 +69,7 @@ instance gameIOHtmlApp :: GameIO HtmlApp where
       parseUserInput "btnStudy" = UserInputStudy
       parseUserInput "btnWork" = UserInputWork
       parseUserInput "btnDoRandomEvent" = UserInputDoRandomEvent
+      parseUserInput "btnLeaveWork" = UserInputLeaveWork
       parseUserInput x = UserInputOther x
 
   hideAllButtons = liftEffect HtmlHandler.hideAllButtons
