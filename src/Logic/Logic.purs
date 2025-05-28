@@ -4,12 +4,14 @@ import GameClass
 import Logic.Params
 import Prelude
 
+import Data.Foldable (sum)
 import Data.Int (toNumber)
+import Data.Map as Map
+import Data.Maybe (Maybe(..))
 import Effect (Effect)
 import Effect.Class (liftEffect)
-import Effect.Console (log)
 import Effect.Random (randomInt)
-import Logic.Types (FieldType(..), UserInput(..), GameState)
+import Logic.Types (FieldType(..), GameState, UserInput(..), Work(..))
 
 
 rollDice :: Effect Int
@@ -30,22 +32,31 @@ availableActionsFSM FieldStudy UserInputStudy gs | gs.freeTime >= studyTimeCost 
         , freeTime = gs.freeTime - studyTimeCost
         , fieldType = FieldActionComplete
         }
-availableActionsFSM FieldWork UserInputWork gs | gs.freeTime >= workTimeCost = 
-      gs{ work = gs.work + 1
-        , freeTime = gs.freeTime - workTimeCost
+availableActionsFSM FieldWork (UserInputWork work) gs = 
+  case work of
+    Job job | (gs.freeTime >= job.hours) && not (Map.member job.name gs.works.jobs) -> 
+      gs{ works = gs.works{jobs = Map.insert job.name job gs.works.jobs}
+        , freeTime = gs.freeTime - job.hours
         , fieldType = FieldActionComplete
         } 
+    Business _ -> gs
+    StockMarket -> gs
+    _ -> gs
+
 availableActionsFSM FieldRandomEvent UserInputDoRandomEvent gs = gs{randomEvents = gs.randomEvents + 1, fieldType = FieldActionComplete}
-availableActionsFSM _ UserInputLeaveWork gs | gs.work >= 1 =
-  gs{ work = gs.work - 1
-    , freeTime = gs.freeTime + workTimeCost
-    } 
+availableActionsFSM _ (UserInputLeaveJob jobName) gs =
+  case Map.lookup jobName gs.works.jobs of
+    Nothing -> gs
+    Just job -> 
+      gs { works = gs.works{jobs = Map.delete jobName gs.works.jobs}
+         , freeTime = gs.freeTime + job.hours
+         } 
 availableActionsFSM _ _ gs = gs
 
 paySalary :: GameState -> GameState
 paySalary gs = 
   if gs.absPosition - gs.lastSalary >= salaryTimeInterval
-    then gs{ money = gs.money + workSalary * toNumber gs.work
+    then gs{ money = gs.money + sum (map (\job -> job.money) (Map.values gs.works.jobs))
            , intellect = gs.intellect + studySalary * toNumber gs.study
            , lastSalary = gs.absPosition - gs.absPosition `mod` salaryTimeInterval}
     else gs
@@ -56,7 +67,6 @@ gameLoop gs0 = do
   showState gs
   hideUnusedButtons gs
   userInput <- getUserInput
-  liftEffect $ log $ "PRESSED: " <> show userInput
   case userInput of
     UserInputRollDice -> do
       gs1 <- liftEffect $ processRollDice gs
@@ -74,7 +84,7 @@ hideUnusedButtons :: forall m. GameIO m => GameState -> m Unit
 hideUnusedButtons gs = do
     hideAllButtons
     displayButton btnRollDice
-    when (gs.work >= 1) $ displayButton btnLeaveWork
+    when (not $ Map.isEmpty gs.works.jobs) $ displayButton btnLeaveJob
     showUsedBtn gs.fieldType
     where
       showUsedBtn FieldStudy = displayButton btnStudy

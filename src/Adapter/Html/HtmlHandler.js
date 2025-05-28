@@ -1,5 +1,4 @@
-// const N_BUTTONS = 9;
-const BUTTONS_NAMES = ["btnRollDice", "btnStudy", "btnWork", "btnDoRandomEvent", "btnLeaveWork"]
+const BUTTONS_NAMES = ["btnRollDice", "btnStudy", "btnWork", "btnDoRandomEvent", "btnLeaveJob"]
 // const buttons = range(1, N_BUTTONS).map((i) => document.getElementById("btn"+i));
 
 
@@ -7,20 +6,6 @@ function range(firstN, lastN) {
   const size = lastN - firstN + 1;
   return [...Array(size).keys()].map(i => i + firstN);
 }
-  
- 
-// export function _waitForClick() {
-//   return new Promise((resolve) => {
-//     const handlers = range(1, N_BUTTONS).map((i) => (() => cleanup(i)));
-        
-//     function cleanup(value) {
-//       buttons.forEach((btn, i) => btn.removeEventListener("click", handlers[i]));
-//       resolve(value);
-//     }
-
-//     buttons.forEach((btn, i) => btn.addEventListener("click", handlers[i]));
-//   });
-// }
 
 
 export function _waitForClick() {
@@ -46,30 +31,6 @@ export function _waitForClick() {
 }
 
 
-// export function _waitForClick111() {
-//   // Ждём загрузки DOM
-//   document.addEventListener('DOMContentLoaded', function() {
-//     // Получаем все элементы button на странице
-//     const buttons = document.querySelectorAll('button');
-    
-//     // Добавляем обработчик клика к каждой кнопке
-//     buttons.forEach(button => {
-//       button.addEventListener('click', function(event) {
-//         // Получаем имя нажатой кнопки
-//         const buttonName = this.name || this.id || this.textContent || 'Безымянная кнопка';
-        
-//         // Выводим имя кнопки (можно заменить на нужное вам действие)
-//         console.log('Нажата кнопка:', buttonName);
-//         alert(`Нажата кнопка: ${buttonName}`);
-        
-//         // Если нужно что-то делать с этим именем дальше - возвращаем его
-//         return buttonName;
-//       });
-//     });
-//   });
-// }
-
-
 export const _hideButton = function (btnIdx){
   return function () {
     document.getElementById(btnIdx).hidden = true;
@@ -77,7 +38,9 @@ export const _hideButton = function (btnIdx){
 }
 
 export const _hideAllButtons = function(){
+    console.log("_hideAllButtons");
     BUTTONS_NAMES.forEach(button => {
+      console.log(button);
       document.getElementById(button).hidden = true;
     });
 }
@@ -115,28 +78,3 @@ export const _displayGameStatus = function(strings){
     });
   }
 }
-
-
-
-// export function waitForClickImpl() {
-//   return new Promise((resolve) => {
-//     const handler1 = () => cleanup(1);
-//     const handler2 = () => cleanup(2);
-//     const handler3 = () => cleanup(3);
-
-//     function cleanup(value) {
-//       btn1.removeEventListener("click", handler1);
-//       btn2.removeEventListener("click", handler2);
-//       btn3.removeEventListener("click", handler3);
-//       resolve(value);
-//     }
-
-//     const btn1 = document.getElementById("btn1");
-//     const btn2 = document.getElementById("btn2");
-//     const btn3 = document.getElementById("btn3");
-
-//     btn1.addEventListener("click", handler1);
-//     btn2.addEventListener("click", handler2);
-//     btn3.addEventListener("click", handler3);
-//   });
-// }

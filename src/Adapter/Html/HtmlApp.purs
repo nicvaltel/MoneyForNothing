@@ -8,7 +8,8 @@ import Effect.Aff (Aff)
 import Effect.Aff.Class (class MonadAff, liftAff)
 import Effect.Class (class MonadEffect, liftEffect)
 import GameClass (class GameIO)
-import Logic.Types (GameState, UserInput(..), prettyGameState)
+import Logic.Types (GameState, UserInput(..), Work(..), prettyGameState)
+import Logic.WorkParams (jobClerk)
 
 
 type HtmlAppData = {}
@@ -67,9 +68,9 @@ instance gameIOHtmlApp :: GameIO HtmlApp where
       parseUserInput :: String -> UserInput
       parseUserInput "btnRollDice" = UserInputRollDice
       parseUserInput "btnStudy" = UserInputStudy
-      parseUserInput "btnWork" = UserInputWork
+      parseUserInput "btnWork" = UserInputWork (Job jobClerk)
       parseUserInput "btnDoRandomEvent" = UserInputDoRandomEvent
-      parseUserInput "btnLeaveWork" = UserInputLeaveWork
+      parseUserInput "btnLeaveJob" = UserInputLeaveJob jobClerk.name
       parseUserInput x = UserInputOther x
 
   hideAllButtons = liftEffect HtmlHandler.hideAllButtons

@@ -35,6 +35,7 @@ to generate this file without the comments in this block.
   , "exceptions"
   , "integers"
   , "strings"
+  , "ordered-collections"
   ]
 , packages = ./packages.dhall
 , sources = [ "src/**/*.purs", "test/**/*.purs" ]

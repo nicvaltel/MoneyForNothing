@@ -48,20 +48,11 @@ setButtonText = _setButtonText
 
 
 printGameMessage :: String -> Effect Unit
-printGameMessage msg = do 
-  log msg
-  traverse_ _printGameMessage (lines msg)
+printGameMessage msg = traverse_ _printGameMessage (lines msg)
 
 displayGameStatus :: String -> Effect Unit
 displayGameStatus = _displayGameStatus <<< lines
 
--- main :: Effect Unit
--- main = 
---   -- runTest
---   launchAff_ do
---   forever do
---     n <- waitForClick
---     liftEffect $ log $ "Пользователь выбрал: " <> show n
 
 
 -------------- EXAMPLE --------------

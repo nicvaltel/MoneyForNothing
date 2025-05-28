@@ -2,6 +2,7 @@ module Logic.Params where
 
 import Prelude
 
+import Data.Map as Map
 import Effect.Exception (error)
 import Logic.Types (FieldType(..), GameState)
 import Unsafe.Coerce (unsafeCoerce)
@@ -24,7 +25,7 @@ initialGameState =
   , lastSalary : 0
   , fieldType : FieldActionComplete
   , step : 0
-  , work : 0
+  , works : {jobs : Map.empty, businesses : Map.empty}
   , study : 0
   , randomEvents : 0
   }
@@ -42,11 +43,8 @@ btnRollDice = "btnRollDice" :: String
 btnStudy = "btnStudy" :: String
 btnWork = "btnWork" :: String
 btnDoRandomEvent = "btnDoRandomEvent" :: String
-btnLeaveWork = "btnLeaveWork" :: String
+btnLeaveJob = "btnLeaveJob" :: String
 
-
-workTimeCost = 100 :: Int
-workSalary = 500.0 :: Number
 
 studyTimeCost = 20 :: Int
 studySalary = 40.0 :: Number

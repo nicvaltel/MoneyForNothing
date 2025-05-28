@@ -3,6 +3,7 @@ module Logic.Types where
 import Prelude
 
 import Data.Generic.Rep (class Generic)
+import Data.Map (Map)
 import Data.Show.Generic (genericShow)
 import Data.String (Pattern(..), Replacement(..), replaceAll)
 
@@ -28,7 +29,7 @@ type GameState =
   , position :: Int
   , fieldType :: FieldType
   , step :: Int
-  , work :: Int
+  , works :: Works
   , study :: Int
   , randomEvents :: Int
   }
@@ -40,9 +41,9 @@ prettyGameState gs =
 data UserInput = 
     UserInputRollDice
   | UserInputStudy
-  | UserInputWork
+  | UserInputWork Work
   | UserInputDoRandomEvent
-  | UserInputLeaveWork
+  | UserInputLeaveJob String
   | UserInputOther String
 
 derive instance eqUserInput :: Eq UserInput
@@ -61,3 +62,31 @@ derive instance eqFieldType :: Eq FieldType
 derive instance genericFieldType :: Generic FieldType _
 instance showFieldType :: Show FieldType where
   show = genericShow
+
+
+type JobType = 
+  { name :: String
+  , hours :: Int
+  , money :: Number
+  }
+
+type BusinessType =
+  { name :: String
+  , hours :: Int
+  , money :: Number
+  }
+
+data Work =
+    Job JobType
+  | Business BusinessType
+  | StockMarket
+
+derive instance eqWork :: Eq Work
+derive instance genericWork :: Generic Work _
+instance showWork :: Show Work where
+  show = genericShow
+
+type Works =
+  { jobs :: Map String JobType
+  , businesses :: Map String BusinessType
+  }

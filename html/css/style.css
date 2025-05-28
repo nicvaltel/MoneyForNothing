@@ -83,3 +83,11 @@ html, body {
   box-sizing: border-box;
   /*background-color: #ffffff; */ /* опционально — для контраста */
 }
+
+#StatusBox {
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+  padding: 8px;
+  box-sizing: border-box;
+}
