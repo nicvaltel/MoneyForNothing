@@ -4,6 +4,7 @@ import Prelude
 
 import Adapter.Html.HtmlHandler as HtmlHandler
 import Control.Monad.Reader (class MonadAsk, class MonadReader, ReaderT, ask, runReaderT)
+import Data.Maybe (Maybe(..))
 import Effect.Aff (Aff)
 import Effect.Aff.Class (class MonadAff, liftAff)
 import Effect.Class (class MonadEffect, liftEffect)
@@ -60,10 +61,14 @@ instance gameIOHtmlApp :: GameIO HtmlApp where
   -- displayMessage str = liftEffect $ log str
   displayMessage str = liftEffect $ HtmlHandler.printGameMessage str
 
-  getUserInput :: HtmlApp UserInput
-  getUserInput = do
+  getUserInput :: Maybe (String -> Maybe UserInput) ->  HtmlApp UserInput
+  getUserInput mayInputParser = do
     s <- liftAff HtmlHandler.waitForClick
-    pure (parseUserInput s)
+    case mayInputParser of
+      Nothing -> pure (parseUserInput s)
+      Just parser -> case parser s of
+        Just input -> pure input
+        Nothing -> pure (parseUserInput s)
     where
       parseUserInput :: String -> UserInput
       parseUserInput "btnRollDice" = UserInputRollDice

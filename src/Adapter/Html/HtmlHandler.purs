@@ -4,6 +4,7 @@ module Adapter.Html.HtmlHandler
   , hideAllButtons
   , hideButton
   , printGameMessage
+  , printToActionBox
   , setButtonText
   , waitForClick
   )
@@ -26,6 +27,7 @@ foreign import _displayButton :: ButtonIdx -> Effect Unit
 foreign import _setButtonText :: ButtonIdx -> String -> Effect Unit
 foreign import _printGameMessage :: String -> Effect Unit
 foreign import _displayGameStatus :: Array String -> Effect Unit
+foreign import _printToActionBox :: Array String -> Effect Unit
 foreign import _hideAllButtons :: Effect Unit
 
 
@@ -53,6 +55,8 @@ printGameMessage msg = traverse_ _printGameMessage (lines msg)
 displayGameStatus :: String -> Effect Unit
 displayGameStatus = _displayGameStatus <<< lines
 
+printToActionBox :: String -> Effect Unit
+printToActionBox = _printToActionBox <<< lines
 
 
 -------------- EXAMPLE --------------

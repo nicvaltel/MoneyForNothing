@@ -2,7 +2,7 @@ module Logic.WorkParams where
 
 import Prelude
 
-import Logic.Types (JobType, BusinessType)
+import Logic.Types (BusinessType, JobType)
 
 
 jobClerk :: JobType
@@ -17,6 +17,13 @@ jobSalesman =
   { name : "Salesman"
   , hours : 120
   , money : 350.0
+  }
+
+jobPizzaDelivery :: JobType
+jobPizzaDelivery =
+  { name : "Pizza Delivery"
+  , hours : 80
+  , money : 250.0
   }
 
 businessA :: BusinessType

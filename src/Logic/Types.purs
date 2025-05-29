@@ -46,6 +46,7 @@ data UserInput =
   | UserInputLeaveJob String
   | UserInputOther String
 
+
 derive instance eqUserInput :: Eq UserInput
 derive instance genericUserInput :: Generic UserInput _
 instance showUserInput :: Show UserInput where

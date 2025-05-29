@@ -78,3 +78,16 @@ export const _displayGameStatus = function(strings){
     });
   }
 }
+
+
+export const _printToActionBox = function(strings){
+  return function(){
+    const div = document.getElementById("ActionBox");
+    div.replaceChildren();
+    strings.forEach((str) => {
+      const p = document.createElement("p");
+      p.textContent += str;
+      div.append(p);
+    });
+  }
+}

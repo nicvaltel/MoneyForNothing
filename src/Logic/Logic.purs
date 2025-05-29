@@ -4,14 +4,17 @@ import GameClass
 import Logic.Params
 import Prelude
 
+import Adapter.Html.HtmlHandler (printToActionBox)
 import Data.Foldable (sum)
 import Data.Int (toNumber)
 import Data.Map as Map
 import Data.Maybe (Maybe(..))
 import Effect (Effect)
 import Effect.Class (liftEffect)
+import Effect.Console (log)
 import Effect.Random (randomInt)
 import Logic.Types (FieldType(..), GameState, UserInput(..), Work(..))
+import Logic.WorkParams (jobClerk)
 
 
 rollDice :: Effect Int
@@ -65,8 +68,9 @@ gameLoop :: forall m. GameIO m => GameState -> m Unit
 gameLoop gs0 = do
   let gs = paySalary gs0
   showState gs
+  showAvailableAction gs
   hideUnusedButtons gs
-  userInput <- getUserInput
+  userInput <- getUserInput Nothing
   case userInput of
     UserInputRollDice -> do
       gs1 <- liftEffect $ processRollDice gs
@@ -78,6 +82,13 @@ gameLoop gs0 = do
     _ -> do
       let newGs = availableActionsFSM (positionToFieldType gs.position) userInput gs      
       gameLoop newGs
+
+
+showAvailableAction :: forall m. GameIO m => GameState -> m Unit
+showAvailableAction gs =
+  case gs.fieldType of
+    FieldWork -> liftEffect $ printToActionBox $ show jobClerk
+    _ -> pure unit
 
 
 hideUnusedButtons :: forall m. GameIO m => GameState -> m Unit
