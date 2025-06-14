@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Complete GUI Interface</title>
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <script type="module" src="scripts/gui.js"></script>
+</head>
+<body>
+    <!-- First Window (Simple) -->
+    <div class="window window-1" id="window1">
+        <div class="title-bar">
+            <div class="title">Window One</div>
+            <button class="close-btn" data-window="window1">×</button>
+        </div>
+        <div class="content">
+            <button class="btn btn-primary" data-window="window1">Button A</button>
+            <button class="btn btn-secondary" data-window="window1">Button B</button>
+        </div>
+        <div class="resize-handle"></div>
+    </div>
+
+    <!-- Second Window (With Tabs) -->
+    <div class="window window-2" id="window2">
+        <div class="title-bar">
+            <div class="title">Window Two (Tabs)</div>
+            <button class="close-btn" data-window="window2">×</button>
+        </div>
+        <div class="tabs">
+            <button class="tab active" data-tab="tab1">Tab 1</button>
+            <button class="tab" data-tab="tab2">Tab 2</button>
+        </div>
+        <div class="content">
+            <div class="tab-content active" id="tab1">
+                <button class="btn btn-success" data-window="window2" data-tab="tab1">Button X</button>
+                <button class="btn btn-warning" data-window="window2" data-tab="tab1">Button Y</button>
+            </div>
+            <div class="tab-content" id="tab2">
+                <button class="btn btn-info" data-window="window2" data-tab="tab2">Button Z</button>
+                <button class="btn btn-purple" data-window="window2" data-tab="tab2">Button W</button>
+            </div>
+        </div>
+        <div class="resize-handle"></div>
+    </div>
+
+    <!-- Footer with control buttons -->
+    <div class="footer">
+        <button class="btn btn-gray footer-btn" id="toggleWindow1">Toggle Window 1</button>
+        <button class="btn btn-gray footer-btn" id="toggleWindow2">Toggle Window 2</button>
+    </div>
+
+</body>
+</html>

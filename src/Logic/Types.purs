@@ -28,6 +28,7 @@ type GameState =
   , lastSalary :: Int
   , position :: Int
   , fieldType :: FieldType
+  , actionType :: ActionType
   , step :: Int
   , works :: Works
   , study :: Int
@@ -43,7 +44,7 @@ data UserInput =
   | UserInputStudy
   | UserInputWork Work
   | UserInputDoRandomEvent
-  | UserInputLeaveJob String
+  | UserInputLeaveJob JobName
   | UserInputOther String
 
 
@@ -64,15 +65,27 @@ derive instance genericFieldType :: Generic FieldType _
 instance showFieldType :: Show FieldType where
   show = genericShow
 
+data ActionType =
+    ActionApplyJob JobType
+  | ActionLeaveJob JobName
+  | ActionCommon
+
+derive instance eqActionType :: Eq ActionType
+derive instance genericActionType :: Generic ActionType _
+instance showActionType :: Show ActionType where
+  show = genericShow
+
+type JobName = String
+type BusinessName = String
 
 type JobType = 
-  { name :: String
+  { name :: JobName
   , hours :: Int
   , money :: Number
   }
 
 type BusinessType =
-  { name :: String
+  { name :: BusinessName
   , hours :: Int
   , money :: Number
   }

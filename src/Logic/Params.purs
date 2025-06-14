@@ -4,7 +4,7 @@ import Prelude
 
 import Data.Map as Map
 import Effect.Exception (error)
-import Logic.Types (FieldType(..), GameState)
+import Logic.Types (ActionType(..), FieldType(..), GameState)
 import Unsafe.Coerce (unsafeCoerce)
 
 minDice = 1 :: Int
@@ -24,6 +24,7 @@ initialGameState =
   , position : 0
   , lastSalary : 0
   , fieldType : FieldActionComplete
+  , actionType : ActionCommon
   , step : 0
   , works : {jobs : Map.empty, businesses : Map.empty}
   , study : 0
