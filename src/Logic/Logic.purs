@@ -1,10 +1,9 @@
 module Logic.Logic where
 
-import GameClass
+import Logic.GameClass
 import Logic.Params
 import Prelude
 
-import Adapter.Html.HtmlHandler (printToActionBox)
 import Data.Foldable (sum)
 import Data.Int (toNumber)
 import Data.Map as Map
@@ -84,21 +83,4 @@ gameLoop gs0 = do
       gameLoop newGs
 
 
-showAvailableAction :: forall m. GameIO m => GameState -> m Unit
-showAvailableAction gs =
-  case gs.fieldType of
-    FieldWork -> liftEffect $ printToActionBox $ show jobClerk
-    _ -> pure unit
 
-
-hideUnusedButtons :: forall m. GameIO m => GameState -> m Unit
-hideUnusedButtons gs = do
-    hideAllButtons
-    displayButton btnRollDice
-    when (not $ Map.isEmpty gs.works.jobs) $ displayButton btnLeaveJob
-    showUsedBtn gs.fieldType
-    where
-      showUsedBtn FieldStudy = displayButton btnStudy
-      showUsedBtn FieldWork = displayButton btnWork
-      showUsedBtn FieldRandomEvent = displayButton btnDoRandomEvent
-      showUsedBtn FieldActionComplete = pure unit

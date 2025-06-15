@@ -40,11 +40,7 @@ positionToFieldType n =
     _ -> unsafeCoerce $ error "Unexpected `mod` 3"
 
 
-btnRollDice = "btnRollDice" :: String
-btnStudy = "btnStudy" :: String
-btnWork = "btnWork" :: String
-btnDoRandomEvent = "btnDoRandomEvent" :: String
-btnLeaveJob = "btnLeaveJob" :: String
+
 
 
 studyTimeCost = 20 :: Int

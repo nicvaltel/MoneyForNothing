@@ -1,15 +1,16 @@
 module Adapter.Html.HtmlApp where
 
+import Logic.GameClass
 import Prelude
 
 import Adapter.Html.HtmlHandler as HtmlHandler
 import Control.Monad.Reader (class MonadAsk, class MonadReader, ReaderT, ask, runReaderT)
+import Data.Map as Map
 import Data.Maybe (Maybe(..))
 import Effect.Aff (Aff)
 import Effect.Aff.Class (class MonadAff, liftAff)
 import Effect.Class (class MonadEffect, liftEffect)
-import GameClass (class GameIO)
-import Logic.Types (GameState, UserInput(..), Work(..), prettyGameState)
+import Logic.Types (FieldType(..), GameState, UserInput(..), Work(..), prettyGameState)
 import Logic.WorkParams (jobClerk)
 
 
@@ -81,3 +82,31 @@ instance gameIOHtmlApp :: GameIO HtmlApp where
   hideAllButtons = liftEffect HtmlHandler.hideAllButtons
 
   displayButton btnName = liftEffect $ HtmlHandler.displayButton btnName
+
+  printToActionBox = liftEffect <<< HtmlHandler.printToActionBox
+
+  showAvailableAction :: GameState -> HtmlApp Unit
+  showAvailableAction gs =
+    case gs.fieldType of
+      FieldWork -> printToActionBox $ show jobClerk
+      _ -> pure unit
+
+
+  hideUnusedButtons :: GameState -> HtmlApp Unit
+  hideUnusedButtons gs = do
+      hideAllButtons
+      displayButton btnRollDice
+      when (not $ Map.isEmpty gs.works.jobs) $ displayButton btnLeaveJob
+      showUsedBtn gs.fieldType
+      where
+        showUsedBtn FieldStudy = displayButton btnStudy
+        showUsedBtn FieldWork = displayButton btnWork
+        showUsedBtn FieldRandomEvent = displayButton btnDoRandomEvent
+        showUsedBtn FieldActionComplete = pure unit
+
+
+btnRollDice = "btnRollDice" :: String
+btnStudy = "btnStudy" :: String
+btnWork = "btnWork" :: String
+btnDoRandomEvent = "btnDoRandomEvent" :: String
+btnLeaveJob = "btnLeaveJob" :: String

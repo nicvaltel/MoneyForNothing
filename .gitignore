@@ -8,5 +8,6 @@
 /.purs*
 /.psa*
 /.spago
-/html/scripts/app.js
+/static/html/scripts/app.js
+/static/html-gui/scripts/app.js
 /back
